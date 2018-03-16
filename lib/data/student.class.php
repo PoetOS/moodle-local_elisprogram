@@ -2841,11 +2841,17 @@ function pm_user_graded_event_handler($eventdata) {
                 $userclass->load();
                 if (empty($userclass->locked) && $userclass->grade < $gradepcnt) { // TBD.
                     $userclass->grade = $gradepcnt;
-                    if ($gradepcnt > $userclass->pmclass->course->completion_grade) { // TBD: && empty completion elements?
-                        $userclass->completestatusid = student::STUSTATUS_PASSED;
-                        $userclass->credits = floatval($userclass->pmclass->course->credits);
-                        $userclass->locked = 1;
-                        $userclass->completetime = $timenow;
+                    if ($gradepcnt >= $userclass->pmclass->course->completion_grade) {
+                        $lofilters = [new field_filter('courseid', $userclass->pmclass->courseid)];
+                        $crscomps = coursecompletion::find($lofilters);
+                        if (!$crscomps->valid()) {
+                            // Only set status here if no learning objectives.
+                            // If there are, completion will be dealt with by cron.
+                            $userclass->completestatusid = student::STUSTATUS_PASSED;
+                            $userclass->credits = floatval($userclass->pmclass->course->credits);
+                            $userclass->locked = 1;
+                            $userclass->completetime = $timenow;
+                        }
                     }
                     $userclass->save();
                 }
