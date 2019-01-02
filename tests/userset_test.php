@@ -204,7 +204,6 @@ class userset_testcase extends elis_database_test {
         // Switch to testuser.
         $USER = $DB->get_record('user', array('id' => 100));
         $USER->access = get_user_accessdata($USER->id);
-        load_role_access_by_context($testrole->id, $context, $USER->access); // We need to force the accesslib cache to refresh.
         $GLOBALS['USER'] = $USER;
 
         // Check if the user can enrol users into the sub-userset.
@@ -250,7 +249,6 @@ class userset_testcase extends elis_database_test {
         // Switch to testuser.
         $USER = $DB->get_record('user', array('id' => 100));
         $USER->access = get_user_accessdata($USER->id);
-        load_role_access_by_context($testrole->id, $context, $USER->access); // We need to force the accesslib cache to refresh.
         $GLOBALS['USER'] = $USER;
 
         // Check which of the parent usersets the user has access to based on the sub-userset.

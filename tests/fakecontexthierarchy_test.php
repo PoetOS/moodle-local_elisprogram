@@ -226,7 +226,6 @@ class fakecontexthierarchy_testcase extends elis_database_test {
         // Assign the test user the editing teacher role on a test program.
         $ctx = \local_elisprogram\context\program::instance($this->tprogramid);
         $this->assertGreaterThan(0, role_assign($role->id, $this->mdluserid, $ctx->id));
-        load_role_access_by_context($role->id, $ctx, $USER->access); // We need to force the accesslib cache to refresh.
 
         // Validate the return value when looking at the 'curriculum' level.
         $contextscurriculum = new pm_context_set();
@@ -285,7 +284,6 @@ class fakecontexthierarchy_testcase extends elis_database_test {
         // Assign the test user the editing teacher role on a test track.
         $ctx = \local_elisprogram\context\track::instance($this->ttrackid);
         $this->assertNotEmpty(role_assign($role->id, $this->mdluserid, $ctx->id));
-        load_role_access_by_context($role->id, $ctx, $USER->access); // We need to force the accesslib cache to refresh.
 
         // Validate the return value when looking at the 'track' level.
         $contextstrack = new pm_context_set();
@@ -324,7 +322,6 @@ class fakecontexthierarchy_testcase extends elis_database_test {
         // Assign the test user the editing teacher role on a test curriculum.
         $ctx = \local_elisprogram\context\course::instance($this->tcourseid);
         $this->assertNotEmpty(role_assign($role->id, $this->mdluserid, $ctx->id));
-        load_role_access_by_context($role->id, $ctx, $USER->access); // We need to force the accesslib cache to refresh.
 
         // Validate the return value when looking at the 'course' level.
         $contextscourse = new pm_context_set();
@@ -362,7 +359,6 @@ class fakecontexthierarchy_testcase extends elis_database_test {
         // Assign the test user the editing teacher role on a test curriculum.
         $ctx = \local_elisprogram\context\pmclass::instance($this->tclassid);
         $this->assertNotEmpty(role_assign($role->id, $this->mdluserid, $ctx->id));
-        load_role_access_by_context($role->id, $ctx, $USER->access); // We need to force the accesslib cache to refresh.
 
         // Validate the return value when looking at the 'class' level.
         $contextsclass = new pm_context_set();
@@ -390,7 +386,6 @@ class fakecontexthierarchy_testcase extends elis_database_test {
         // Assign the test user the editing teacher role on a test cluster.
         $ctx = \local_elisprogram\context\userset::instance($this->tusersetid);
         $this->assertNotEmpty(role_assign($role->id, $this->mdluserid, $ctx->id));
-        load_role_access_by_context($role->id, $ctx, $USER->access); // We need to force the accesslib cache to refresh.
 
          // Validate the return value when looking at the 'cluster' level.
         $contextscluster = new pm_context_set();
@@ -429,7 +424,6 @@ class fakecontexthierarchy_testcase extends elis_database_test {
         // Assign the test user the editing teacher role on a test cluster.
         $ctx = \local_elisprogram\context\user::instance($this->tuserid);
         $this->assertNotEmpty(role_assign($role->id, $this->mdluserid, $ctx->id));
-        load_role_access_by_context($role->id, $ctx, $USER->access); // We need to force the accesslib cache to refresh.
 
          // Validate the return value when looking at the 'user' level.
         $contextsuser = new pm_context_set();
