@@ -52,6 +52,7 @@ class autocreatemoodlecourse_testcase extends elis_database_test {
         // Load initial data from CSVs.
         $dataset = $this->createCsvDataSet(array(
             'course' => elispm::file('tests/fixtures/autocreatemoodlecourse_course.csv'),
+            'course_sections' => elispm::file('tests/fixtures/autocreatemoodlecourse_coursesection.csv'),
             pmclass::TABLE => elispm::file('tests/fixtures/autocreatemoodlecourse_class.csv'),
             course::TABLE => elispm::file('tests/fixtures/autocreatemoodlecourse_coursedescription.csv'),
             coursetemplate::TABLE => elispm::file('tests/fixtures/autocreatemoodlecourse_coursetemplate.csv'),
