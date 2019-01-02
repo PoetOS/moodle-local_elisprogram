@@ -398,8 +398,15 @@ function pm_notify_send_handler($eventdata){
         $eventdata->fullmessagehtml .= "<br /><br />---------------------------------------------------------------------<br />".$emailtagline;
     }
 
-    //send the message
-    return message_send((object)(array)$eventdata);
+    // Function message_send needs a \core\message\message object now.
+    $eventvars = get_object_vars($eventdata);
+    $neweventdata = new \core\message\message();
+    foreach ($eventvars as $property => $value) {
+        $neweventdata->{$property} = $value;
+    }
+
+    // Send the message.
+    return message_send($neweventdata);
 }
 
 /**
