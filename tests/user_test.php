@@ -72,7 +72,7 @@ class user_testcase extends elis_database_test {
             field_data_char::TABLE => elispm::file('tests/fixtures/user_field_data_char.csv'),
             field_data_text::TABLE => elispm::file('tests/fixtures/user_field_data_text.csv'),
         ));
-        $dataset = new PHPUnit_Extensions_Database_DataSet_ReplacementDataSet($dataset);
+        $dataset = new PHPUnit\DbUnit\DataSet\ReplacementDataSet($dataset);
         $dataset->addFullReplacement('##USERCTXID##', $usercontext->id);
         $dataset->addFullReplacement('##USERCTXLVL##', CONTEXT_ELIS_USER);
         $this->loadDataSet($dataset);
@@ -173,9 +173,9 @@ class user_testcase extends elis_database_test {
         // Check custom fields.
         $result = new moodle_recordset_phpunit_datatable('user_info_data',
                 $DB->get_records('user_info_data', null, '', 'id, userid, fieldid, data'));
-        $dataset = new PHPUnit_Extensions_Database_DataSet_CsvDataSet();
+        $dataset = new PHPUnit\DbUnit\DataSet\CsvDataSet();
         $dataset->addTable('user_info_data', elispm::file('tests/fixtures/user_info_data.csv'));
-        $dataset = new PHPUnit_Extensions_Database_DataSet_ReplacementDataSet($dataset);
+        $dataset = new PHPUnit\DbUnit\DataSet\ReplacementDataSet($dataset);
         // Only the second text field should be changed; everything else should be the same.
         $dataset->addFullReplacement('Second text entry field', 'bla');
         $this->assertTablesEqual($dataset->getTable('user_info_data'), $result);
@@ -263,7 +263,7 @@ class user_testcase extends elis_database_test {
         $this->assertEquals($mdluser->lastname, $retr->lastname);
 
         // Check custom fields.
-        $result = new PHPUnit_Extensions_Database_DataSet_DefaultDataSet();
+        $result = new PHPUnit\DbUnit\DataSet\DefaultDataSet();
         $result->addTable(new moodle_recordset_phpunit_datatable(field_data_int::TABLE,
                 $DB->get_recordset(field_data_int::TABLE, null, '', 'contextid, fieldid, data')));
         $result->addTable(new moodle_recordset_phpunit_datatable(field_data_char::TABLE,
@@ -271,11 +271,11 @@ class user_testcase extends elis_database_test {
         $result->addTable(new moodle_recordset_phpunit_datatable(field_data_text::TABLE,
                 $DB->get_recordset(field_data_text::TABLE, null, '', 'contextid, fieldid, data')));
         $usercontext = \local_elisprogram\context\user::instance(103);
-        $dataset = new PHPUnit_Extensions_Database_DataSet_CsvDataSet();
+        $dataset = new PHPUnit\DbUnit\DataSet\CsvDataSet();
         $dataset->addTable(field_data_int::TABLE, elispm::file('tests/fixtures/user_field_data_int.csv'));
         $dataset->addTable(field_data_char::TABLE, elispm::file('tests/fixtures/user_field_data_char.csv'));
         $dataset->addTable(field_data_text::TABLE, elispm::file('tests/fixtures/user_field_data_text.csv'));
-        $dataset = new PHPUnit_Extensions_Database_DataSet_ReplacementDataSet($dataset);
+        $dataset = new PHPUnit\DbUnit\DataSet\ReplacementDataSet($dataset);
         $dataset->addFullReplacement('##USERCTXID##', $usercontext->id);
         $dataset->addFullReplacement('##USERCTXLVL##', CONTEXT_ELIS_USER);
         // Only the first text field should be changed; everything else should be the same.

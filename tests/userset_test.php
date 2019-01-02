@@ -101,7 +101,7 @@ class userset_testcase extends elis_database_test {
 
         // Read it back.
         $result = new moodle_recordset_phpunit_datatable(userset::TABLE, userset::find(null, array(), 0, 0));
-        $dataset = new PHPUnit_Extensions_Database_DataSet_CsvDataSet();
+        $dataset = new PHPUnit\DbUnit\DataSet\CsvDataSet();
         $dataset->addTable(userset::TABLE, elispm::file('tests/fixtures/userset_update_test_result.csv'));
         $this->assertTablesEqual($dataset->getTable(userset::TABLE), $result);
     }
@@ -126,7 +126,7 @@ class userset_testcase extends elis_database_test {
 
         // Read it back.
         $result = new moodle_recordset_phpunit_datatable(userset::TABLE, userset::find(null, array(), 0, 0));
-        $dataset = new PHPUnit_Extensions_Database_DataSet_CsvDataSet();
+        $dataset = new PHPUnit\DbUnit\DataSet\CsvDataSet();
         $dataset->addTable(userset::TABLE, elispm::file('tests/fixtures/userset_promote_test_result.csv'));
         $this->assertTablesEqual($dataset->getTable(userset::TABLE), $result);
     }
@@ -152,7 +152,7 @@ class userset_testcase extends elis_database_test {
         // Read it back.
         $recordset = $DB->get_recordset(userset::TABLE, null, '', 'name,display,parent,depth,id');
         $result = new moodle_recordset_phpunit_datatable(userset::TABLE, $recordset);
-        $dataset = new PHPUnit_Extensions_Database_DataSet_CsvDataSet();
+        $dataset = new PHPUnit\DbUnit\DataSet\CsvDataSet();
         $dataset->addTable(userset::TABLE, elispm::file('tests/fixtures/userset_delete_subset_b_test_result.csv'));
         $this->assertTablesEqual($dataset->getTable(userset::TABLE), $result);
     }

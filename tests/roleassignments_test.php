@@ -67,7 +67,7 @@ class roleassignments_testcase extends elis_database_test {
             pmclass::TABLE => elispm::file('tests/fixtures/pmclass.csv'),
             userset::TABLE => elispm::file('tests/fixtures/userset.csv')
         ));
-        $dataset = new PHPUnit_Extensions_Database_DataSet_ReplacementDataSet($dataset);
+        $dataset = new PHPUnit\DbUnit\DataSet\ReplacementDataSet($dataset);
         $dataset->addSubStrReplacement('\n', "\n");
         $this->loadDataSet($dataset);
     }

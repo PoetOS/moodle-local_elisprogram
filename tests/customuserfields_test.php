@@ -54,7 +54,7 @@ class usercustomfields_testcase extends elis_database_test {
             field::TABLE => elispm::file('tests/fixtures/user_field.csv'),
             field_owner::TABLE => elispm::file('tests/fixtures/user_field_owner.csv'),
         ));
-        $dataset = new PHPUnit_Extensions_Database_DataSet_ReplacementDataSet($dataset);
+        $dataset = new PHPUnit\DbUnit\DataSet\ReplacementDataSet($dataset);
         $dataset->addSubStrReplacement('\n', "\n");
         $this->loadDataSet($dataset);
 
@@ -68,7 +68,7 @@ class usercustomfields_testcase extends elis_database_test {
             field_data_char::TABLE => elispm::file('tests/fixtures/user_field_data_char.csv'),
             field_data_text::TABLE => elispm::file('tests/fixtures/user_field_data_text.csv'),
         ));
-        $dataset = new PHPUnit_Extensions_Database_DataSet_ReplacementDataSet($dataset);
+        $dataset = new PHPUnit\DbUnit\DataSet\ReplacementDataSet($dataset);
         $dataset->addFullReplacement('##USERCTXID##', $usercontext->id);
         $dataset->addFullReplacement('##USERCTXLVL##', CONTEXT_ELIS_USER);
         $this->loadDataSet($dataset);
