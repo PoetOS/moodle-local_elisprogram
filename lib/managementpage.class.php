@@ -491,7 +491,7 @@ abstract class managementpage extends pm_page {
                         $iconattrs = array(
                             'title' => $tab['name'],
                             'alt' => $tab['name'],
-                            'src' => $OUTPUT->pix_url($tab['image'], $plugin)
+                            'src' => $OUTPUT->image_url($tab['image'], $plugin)
                         );
                         $icon = html_writer::empty_tag('img', $iconattrs);
                         $buttons[] = html_writer::link($target->url, $icon, array('class' => 'managementicon'));

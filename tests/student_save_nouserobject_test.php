@@ -45,10 +45,10 @@ class student_save_nouserobject_test extends elis_database_test {
         global $DB, $USER;
 
         // Create Moodle course category.
-        $crscat = create_course_category((object)array(
-            'name'     => 'Test Course category',
-            'idnumber' => 'MCC-1'
-        ));
+        $data = new stdClass();
+        $data->name = 'Test Course category';
+        $data->idnumber = 'MCC-1';
+        $crscat = coursecat::create($data);
 
         // Create Moodle course.
         $crsdata = array(

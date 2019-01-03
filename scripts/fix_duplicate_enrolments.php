@@ -52,7 +52,8 @@ function cleanup() {
     // Create a temporary table by reading in the XMLDB file that defines the student enrolment table
     $xmldb_file = new xmldb_file(elispm::file('db/install.xml'));
     if (!$xmldb_file->fileExists() or !$xmldb_file->loadXMLStructure()) {
-        continue;
+        // Not sure if this was supposed to be an 'exit' or 'die', but this is invalid in PHP7 so commenting out.
+//        continue;
     }
     $structure = $xmldb_file->getStructure();
     $tables = $structure->getTables();

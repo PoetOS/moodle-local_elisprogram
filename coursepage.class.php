@@ -349,7 +349,7 @@ class coursepage extends managementpage {
             foreach ($columns as $column => $cdesc) {
                 $columndir = "ASC";
                 $columnicon = $columndir == "ASC" ? "down":"up";
-                $columnicon = " <img src=\"".$OUTPUT->pix_url('t/'.$columnicon)."\" alt=\"\" />";
+                $columnicon = " <img src=\"".$OUTPUT->image_url('t/'.$columnicon)."\" alt=\"\" />";
 
                 $$column = $cdesc;
                 $table->head[]  = $$column;

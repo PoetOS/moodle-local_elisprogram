@@ -604,7 +604,8 @@ class associationpage extends pm_page {
                 if ($target->can_do() && !empty($tab['image'])) {
                     $plugin = !empty($tab['plugin']) ? $tab['plugin'] : 'local_elisprogram';
                     $buttons[] = html_writer::link($target->url, html_writer::empty_tag('img',
-                            array('title' => $tab['name'], 'alt' => $tab['name'], 'src' => $OUTPUT->pix_url($tab['image'], $plugin))));
+                            array('title' => $tab['name'], 'alt' => $tab['name'],
+                                  'src' => $OUTPUT->image_url($tab['image'], $plugin))));
                 }
             }
         }
@@ -800,7 +801,9 @@ class association_page_table extends display_table {
         $id = required_param('id', PARAM_INT);
         $target = $this->page->get_new_page(array('action' => 'delete', 'association_id' => $item->id, 'id' => $id));
         if ($target->can_do('delete')) {
-            $deletebutton = html_writer::link($target->url, html_writer::empty_tag('img', array('src' => $OUTPUT->pix_url('t/delete'), 'alt' => 'Unenrol', 'title' => 'Unenrol')));
+            $deletebutton = html_writer::link($target->url,
+                html_writer::empty_tag('img', array('src' => $OUTPUT->image_url('t/delete'), 'alt' => 'Unenrol',
+                    'title' => 'Unenrol')));
         } else {
             $deletebutton = '';
         }
