@@ -1518,3 +1518,57 @@ $string['when_student_grade_set'] = 'When Student grade set';
 $string['widget_preview_alt'] = 'Widget Preview';
 $string['widget_preview_notavailable'] = 'No preview available';
 
+// Privacy API strings.
+$string['privacy:metadata:local_elisprogram'] = 'ELIS program local data.';
+$string['privacy:metadata:local_elisprogram_cls_enrol'] = 'Data about ELIS class enrolments.';
+$string['privacy:metadata:local_elisprogram_cls_enrol:userid'] = 'The user id for this enrolment.';
+$string['privacy:metadata:local_elisprogram_cls_enrol:classid'] = 'The class id for this enrolment.';
+$string['privacy:metadata:local_elisprogram_cls_enrol:enrolmenttime'] = 'Date and time of the enrolment.';
+$string['privacy:metadata:local_elisprogram_cls_enrol:completetime'] = 'Date and time the class was completed by the user.';
+$string['privacy:metadata:local_elisprogram_cls_enrol:endtime'] = 'Date and time the class must be completed by.';
+$string['privacy:metadata:local_elisprogram_cls_enrol:completestatusid'] = 'Status of the completion.';
+$string['privacy:metadata:local_elisprogram_cls_enrol:grade'] = 'Grade achieved for this class.';
+$string['privacy:metadata:local_elisprogram_cls_enrol:credits'] = 'Credits awarded for this class.';
+
+$string['privacy:metadata:local_elisprogram_cls_graded'] = 'Data about ELIS class grades.';
+$string['privacy:metadata:local_elisprogram_cls_graded:userid'] = 'The user id for this class grade.';
+$string['privacy:metadata:local_elisprogram_cls_graded:classid'] = 'The class id for this class grade.';
+$string['privacy:metadata:local_elisprogram_cls_graded:completionid'] = 'The id of the completion status.';
+$string['privacy:metadata:local_elisprogram_cls_graded:grade'] = 'Grade achieved by the user.';
+$string['privacy:metadata:local_elisprogram_cls_graded:timegraded'] = 'Date and time the class was graded.';
+$string['privacy:metadata:local_elisprogram_cls_graded:timemodified'] = 'Date and time the record was modified.';
+
+$string['privacy:metadata:local_elisprogram_cls_nstrct'] = 'Data about ELIS class instructor assignments.';
+$string['privacy:metadata:local_elisprogram_cls_nstrct:userid'] = 'The user id for this instructor.';
+$string['privacy:metadata:local_elisprogram_cls_nstrct:classid'] = 'The class id for this instructor class assignment.';
+$string['privacy:metadata:local_elisprogram_cls_nstrct:assigntime'] = 'Date and time the instructor was assigned.';
+$string['privacy:metadata:local_elisprogram_cls_nstrct:completetime'] = 'Date and time the assignment was completed.';
+
+$string['privacy:metadata:local_elisprogram_pgm_assign'] = 'Data about ELIS program assignments.';
+$string['privacy:metadata:local_elisprogram_pgm_assign:userid'] = 'The user id for this assignment.';
+$string['privacy:metadata:local_elisprogram_pgm_assign:curriculumid'] = 'The id of the program curriculum record.';
+$string['privacy:metadata:local_elisprogram_pgm_assign:completed'] = 'Program completed flag.';
+$string['privacy:metadata:local_elisprogram_pgm_assign:timecompleted'] = 'Date and time the program was completed.';
+$string['privacy:metadata:local_elisprogram_pgm_assign:timeexpired'] = 'Date and time the program was expired.';
+$string['privacy:metadata:local_elisprogram_pgm_assign:credits'] = 'Number of credits awarded.';
+$string['privacy:metadata:local_elisprogram_pgm_assign:certificatecode'] = 'The certificate code awarded.';
+$string['privacy:metadata:local_elisprogram_pgm_assign:timecreated'] = 'Date and time the record was created.';
+$string['privacy:metadata:local_elisprogram_pgm_assign:timemodified'] = 'Date and time the record was modified.';
+
+$string['privacy:metadata:local_elisprogram_usr_trk'] = 'Data about ELIS track assignments.';
+$string['privacy:metadata:local_elisprogram_usr_trk:userid'] = 'The user id for this assignment.';
+$string['privacy:metadata:local_elisprogram_usr_trk:trackid'] = 'The id of the track record.';
+
+$string['privacy:metadata:local_elisprogram_notifylog'] = 'Contains logs of notifications for events.';
+$string['privacy:metadata:local_elisprogram_notifylog:userid'] = 'The user id for this log record.';
+$string['privacy:metadata:local_elisprogram_notifylog:event'] = 'Description of the event.';
+$string['privacy:metadata:local_elisprogram_notifylog:instance'] = 'An id of an element instance that the event was generated for.';
+$string['privacy:metadata:local_elisprogram_notifylog:fromuserid'] = 'PM user id that triggered the notification.';
+$string['privacy:metadata:local_elisprogram_notifylog:data'] = 'Any other data needed for the notification log.';
+$string['privacy:metadata:local_elisprogram_notifylog:timecreated'] = 'Date and time the record was created.';
+
+$string['privacy:metadata:local_elisprogram_uset_asign'] = 'User set assignments from user set plugins.';
+$string['privacy:metadata:local_elisprogram_uset_asign:userid'] = 'The user id for this assignment.';
+$string['privacy:metadata:local_elisprogram_uset_asign:clusterid'] = 'Id of the user set record.';
+$string['privacy:metadata:local_elisprogram_uset_asign:plugin'] = 'The name of the plugin responsible for the assignment.';
+$string['privacy:metadata:local_elisprogram_uset_asign:leader'] = 'Whether or not the user is a user set leader.';
