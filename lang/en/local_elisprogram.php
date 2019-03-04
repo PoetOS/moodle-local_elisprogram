@@ -1520,6 +1520,34 @@ $string['widget_preview_notavailable'] = 'No preview available';
 
 // Privacy API strings.
 $string['privacy:metadata:local_elisprogram'] = 'ELIS program local data.';
+
+$string['privacy:metadata:local_elisprogram_usr'] = 'ELIS program user record data.';
+$string['privacy:metadata:local_elisprogram_usr:username'] = 'ELIS program user name.';
+$string['privacy:metadata:local_elisprogram_usr:idnumber'] = 'ELIS program user idnumber.';
+$string['privacy:metadata:local_elisprogram_usr:firstname'] = 'ELIS program user firstname.';
+$string['privacy:metadata:local_elisprogram_usr:lastname'] = 'ELIS program user lastname.';
+$string['privacy:metadata:local_elisprogram_usr:mi'] = 'ELIS program user middle name / initial.';
+$string['privacy:metadata:local_elisprogram_usr:email'] = 'ELIS program user email address.';
+$string['privacy:metadata:local_elisprogram_usr:email2'] = 'ELIS program user second email address.';
+$string['privacy:metadata:local_elisprogram_usr:address'] = 'ELIS program user mailing address.';
+$string['privacy:metadata:local_elisprogram_usr:address2'] = 'ELIS program user mailing address line two.';
+$string['privacy:metadata:local_elisprogram_usr:city'] = 'ELIS program user city address.';
+$string['privacy:metadata:local_elisprogram_usr:state'] = 'ELIS program user state address.';
+$string['privacy:metadata:local_elisprogram_usr:postalcode'] = 'ELIS program user postal code.';
+$string['privacy:metadata:local_elisprogram_usr:country'] = 'ELIS program user country of residence.';
+$string['privacy:metadata:local_elisprogram_usr:phone'] = 'ELIS program user phone number.';
+$string['privacy:metadata:local_elisprogram_usr:phone2'] = 'ELIS program user alternate phone number.';
+$string['privacy:metadata:local_elisprogram_usr:fax'] = 'ELIS program user fax number.';
+$string['privacy:metadata:local_elisprogram_usr:birthdate'] = 'ELIS program user date of birth.';
+$string['privacy:metadata:local_elisprogram_usr:gender'] = 'ELIS program user gender.';
+$string['privacy:metadata:local_elisprogram_usr:language'] = 'ELIS program user preferred language.';
+$string['privacy:metadata:local_elisprogram_usr:transfercredits'] = 'ELIS program user credits transferred in.';
+$string['privacy:metadata:local_elisprogram_usr:comments'] = 'ELIS program user comments.';
+$string['privacy:metadata:local_elisprogram_usr:notes'] = 'ELIS program user notes.';
+$string['privacy:metadata:local_elisprogram_usr:timecreated'] = 'Timestamp of ELIS program user record creation.';
+$string['privacy:metadata:local_elisprogram_usr:timeapproved'] = 'Timestamp of ELIS program user record approval.';
+$string['privacy:metadata:local_elisprogram_usr:timemodified'] = 'Timestamp of last ELIS program user record modification.';
+
 $string['privacy:metadata:local_elisprogram_cls_enrol'] = 'Data about ELIS class enrolments.';
 $string['privacy:metadata:local_elisprogram_cls_enrol:userid'] = 'The user id for this enrolment.';
 $string['privacy:metadata:local_elisprogram_cls_enrol:classid'] = 'The class id for this enrolment.';

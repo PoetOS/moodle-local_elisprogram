@@ -91,6 +91,34 @@ class provider implements
             'timemodified' => 'privacy:metadata:local_elisprogram_pgm_assign:timemodified',
         ], 'privacy:metadata:local_elisprogram_pgm_assign');
 
+        $collection->add_database_table('local_elisprogram_usr', [
+            'username' => 'privacy:metadata:local_elisprogram_usr:username',
+            'idnumber' => 'privacy:metadata:local_elisprogram_usr:idnumber',
+            'firstname' => 'privacy:metadata:local_elisprogram_usr:firstname',
+            'lastname' => 'privacy:metadata:local_elisprogram_usr:lastname',
+            'mi' => 'privacy:metadata:local_elisprogram_usr:mi',
+            'email' => 'privacy:metadata:local_elisprogram_usr:email',
+            'email2' => 'privacy:metadata:local_elisprogram_usr:email2',
+            'address' => 'privacy:metadata:local_elisprogram_usr:address',
+            'address2' => 'privacy:metadata:local_elisprogram_usr:address2',
+            'city' => 'privacy:metadata:local_elisprogram_usr:city',
+            'state' => 'privacy:metadata:local_elisprogram_usr:state',
+            'postalcode' => 'privacy:metadata:local_elisprogram_usr:postalcode',
+            'country' => 'privacy:metadata:local_elisprogram_usr:country',
+            'phone' => 'privacy:metadata:local_elisprogram_usr:phone',
+            'phone2' => 'privacy:metadata:local_elisprogram_usr:phone2',
+            'fax' => 'privacy:metadata:local_elisprogram_usr:fax',
+            'birthdate' => 'privacy:metadata:local_elisprogram_usr:birthdate',
+            'gender' => 'privacy:metadata:local_elisprogram_usr:gender',
+            'language' => 'privacy:metadata:local_elisprogram_usr:language',
+            'transfercredits' => 'privacy:metadata:local_elisprogram_usr:transfercredits',
+            'comments' => 'privacy:metadata:local_elisprogram_usr:comments',
+            'notes' => 'privacy:metadata:local_elisprogram_usr:notes',
+            'timecreated' => 'privacy:metadata:local_elisprogram_usr:timecreated',
+            'timeapproved' => 'privacy:metadata:local_elisprogram_usr:timeapproved',
+            'timemodified' => 'privacy:metadata:local_elisprogram_usr:timemodified',
+        ], 'privacy:metadata:local_elisprogram_usr');
+
         $collection->add_database_table('local_elisprogram_usr_trk', [
             'userid' => 'privacy:metadata:local_elisprogram_usr_trk:userid',
             'trackid' => 'privacy:metadata:local_elisprogram_usr_trk:trackid',
@@ -164,7 +192,7 @@ class provider implements
         $contextlist = new \core_privacy\local\request\contextlist();
 
         // If the user exists in any of the ELIS core tables, add the user context and return it.
-        if (self::user_has_eliscore_data($userid)) {
+        if (self::user_has_elisprogram_data($userid)) {
             $contextlist->add_user_context($userid);
         }
 
@@ -184,7 +212,7 @@ class provider implements
         }
 
         // If the user exists in any of the ELIS core tables, add the user context and return it.
-        if (self::user_has_eliscore_data($context->instanceid)) {
+        if (self::user_has_elisprogram_data($context->instanceid)) {
             $userlist->add_user($context->instanceid);
         }
     }
@@ -195,6 +223,10 @@ class provider implements
      * @param   approved_contextlist $contextlist The approved contexts to export information for.
      */
     public static function export_user_data(\core_privacy\local\request\approved_contextlist $contextlist) {
+        global $CFG;
+        require_once($CFG->dirroot.'/local/elisprogram/lib/setup.php');
+        require_once(\elispm::lib('data/student.class.php'));
+
         if (empty($contextlist->count())) {
             return;
         }
@@ -206,26 +238,54 @@ class provider implements
         $user = $contextlist->get_user();
         $context = \context_user::instance($user->id);
 
-        $workflowdata = self::user_workflow_data($user->id);
-        foreach ($workflowdata as $workflow) {
-            $data->workflows[] = [
-                'type' => $workflow->type,
-                'subtype' => $workflow->subtype,
-                'data' => $workflow->data,
-                'timemodified' => \core_privacy\local\request\transform::datetime($workflow->timemodified),
-            ];
+        if (!empty($workflowdata = self::program_user_data($user->id))) {
+            $data->username = $workflowdata->username;
+            $data->idnumber = $workflowdata->idnumber;
+            $data->firstname = $workflowdata->firstname;
+            $data->lastname = $workflowdata->lastname;
+            $data->mi = $workflowdata->mi;
+            $data->email = $workflowdata->email;
+            $data->email2 = $workflowdata->email2;
+            $data->address = $workflowdata->address;
+            $data->address2 = $workflowdata->address2;
+            $data->city = $workflowdata->city;
+            $data->state = $workflowdata->state;
+            $data->postalcode = $workflowdata->postalcode;
+            $data->country = $workflowdata->country;
+            $data->phone = $workflowdata->phone;
+            $data->phone2 = $workflowdata->phone2;
+            $data->fax = $workflowdata->fax;
+            $data->birthdate = $workflowdata->birthdate;
+            $data->gender = $workflowdata->gender;
+            $data->language = $workflowdata->language;
+            $data->transfercredits = $workflowdata->transfercredits;
+            $data->comments = $workflowdata->comments;
+            $data->notes = $workflowdata->notes;
+            $data->timecreated = \core_privacy\local\request\transform::datetime($workflowdata->timecreated);
+            $data->timeapproved = \core_privacy\local\request\transform::datetime($workflowdata->timeapproved);
+            $data->timemodified = \core_privacy\local\request\transform::datetime($workflowdata->timemodified);
         }
 
-        $elisfieldsdata = self::user_field_data($user->id);
-        foreach ($elisfieldsdata as $elisfield) {
-            $data->elisfields[] = [
-                'name' => $elisfield->name,
-                'data' => $elisfield->data,
+        $completestatustext = [
+            STUSTATUS_NOTCOMPLETE => get_string('class_notcompleted', 'local_elisprogram'),
+            STUSTATUS_FAILED => get_string('failed', 'local_elisprogram'),
+            STUSTATUS_PASSED => get_string('passed', 'local_elisprogram'),
+        ];
+        $enroldata = self::user_class_enrolment_data($user->id);
+        foreach ($enroldata as $enrolrecord) {
+            $data->classenrolments[] = [
+                'classname' => $enrolrecord->name,
+                'enrolmenttime' => \core_privacy\local\request\transform::datetime($enrolrecord->enrolmenttime),
+                'completetime' => \core_privacy\local\request\transform::datetime($enrolrecord->completetime),
+                'endtime' => \core_privacy\local\request\transform::datetime($enrolrecord->endtime),
+                'completestatusid' => $completestatustext[$enrolrecord->completestatusid],
+                'grade' => $enrolrecord->grade,
+                'credits' => $enrolrecord->credits,
             ];
         }
 
         \core_privacy\local\request\writer::with_context($context)->export_data([
-            get_string('privacy:metadata:local_eliscore', 'local_eliscore')
+            get_string('privacy:metadata:local_elisprogram', 'local_elisprogram')
         ], $data);
     }
 
@@ -274,18 +334,17 @@ class provider implements
     }
 
     /**
-     * Return true if the specified userid has data in the ELIS core tables.
+     * Return true if the specified userid has data in the ELIS program tables.
      *
      * @param int $userid The user to check for.
      * @return boolean
      */
-    private static function user_has_eliscore_data(int $userid) {
+    private static function user_has_elisprogram_data(int $userid) {
         global $DB;
 
+        // All ELIS program users must have a record in the ELIS user table.
         $hasdata = false;
-        if (!empty(self::user_workflow_data($userid))) {
-            $hasdata = true;
-        } else if (!empty(self::user_field_data($userid))) {
+        if (!empty(self::program_user_data($userid))) {
             $hasdata = true;
         }
 
@@ -293,48 +352,39 @@ class provider implements
     }
 
     /**
-     * Return the workflow record for the specified user.
+     * Return the ELIS program user record for the specified user.
      *
      * @param int $userid The user to check for.
      * @return array
      */
-    private static function user_workflow_data(int $userid) {
+    private static function program_user_data(int $userid) {
         global $DB;
 
-        return $DB->get_records('local_eliscore_wkflow_inst', ['userid' => $userid]);
+        $sql = 'SELECT epu.* ' .
+            'FROM {local_elisprogram_usr_mdl} um ' .
+            'INNER JOIN {local_elisprogram_usr} epu ON epu.id = um.cuserid ' .
+            'WHERE um.muserid = :userid';
+        $params = ['userid' => $userid];
+        return $DB->get_record_sql($sql, $params);
     }
 
     /**
-     * Return the ELIS core field records for the specified user.
+     * Return the class enrolment records for the specified user.
      *
      * @param int $userid The user to check for.
-     * @return array The data or empty record.
+     * @return array
      */
-    private static function user_field_data(int $userid) {
+    private static function user_class_enrolment_data(int $userid) {
         global $DB;
 
-        $data = [];
-        $tables = ['local_eliscore_fld_data_text', 'local_eliscore_fld_data_int',
-            'local_eliscore_fld_data_num', 'local_eliscore_fld_data_char'];
-        $select = 'SELECT ecfd.id, ecf.id as fieldid, ecf.name, ecfd.data, ';
-        $conditions = 'INNER JOIN {local_eliscore_field} ecf ON ecfd.fieldid = ecf.id ' .
-            'INNER JOIN {local_eliscore_fld_cat_ctx} ecfc ON ecf.categoryid = ecfc.categoryid AND ' .
-            'ecfc.contextlevel = :usercontext1 ' .
-            'INNER JOIN {user} u ON u.id = :userid ' .
-            'INNER JOIN {local_elisprogram_usr} epu ON u.idnumber = epu.idnumber ' .
-            'INNER JOIN {context} c ON epu.id = c.instanceid AND c.contextlevel = :usercontext2 ' .
-            'WHERE c.id = ecfd.contextid';
-        $params = ['userid' => $userid, 'usercontext1' => CONTEXT_ELIS_USER, 'usercontext2' => CONTEXT_ELIS_USER];
-
-        foreach ($tables as $table) {
-            $from = 'FROM {' . $table . '} ecfd ';
-            $sql = $select . '\'' . $table . '\' as tablename '. $from . $conditions;
-            if (!empty($records = $DB->get_records_sql($sql, $params))) {
-                $data = array_merge($data, $records);
-            }
-        }
-
-        return $data;
+        $sql = 'SELECT ce.*, cr.name ' .
+            'FROM {local_elisprogram_usr_mdl} um ' .
+            'INNER JOIN {local_elisprogram_cls_enrol} ce ON ce.userid = um.cuserid ' .
+            'INNER JOIN {local_elisprogram_cls} cl ON ce.classid = cl.id ' .
+            'INNER JOIN {local_elisprogram_crs} cr ON cl.courseid = cr.id ' .
+            'WHERE um.muserid = :userid';
+        $params = ['userid' => $userid];
+        return $DB->get_records_sql($sql, $params);
     }
 
     /**
