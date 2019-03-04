@@ -1572,3 +1572,37 @@ $string['privacy:metadata:local_elisprogram_uset_asign:userid'] = 'The user id f
 $string['privacy:metadata:local_elisprogram_uset_asign:clusterid'] = 'Id of the user set record.';
 $string['privacy:metadata:local_elisprogram_uset_asign:plugin'] = 'The name of the plugin responsible for the assignment.';
 $string['privacy:metadata:local_elisprogram_uset_asign:leader'] = 'Whether or not the user is a user set leader.';
+
+$string['privacy:metadata:local_elisprogram_waitlist'] = 'Waiting list for class enrolments.';
+$string['privacy:metadata:local_elisprogram_waitlist:userid'] = 'The user id for this record.';
+$string['privacy:metadata:local_elisprogram_waitlist:classid'] = 'Id of the class being waited for.';
+$string['privacy:metadata:local_elisprogram_waitlist:timecreated'] = 'Date and time the record was created.';
+$string['privacy:metadata:local_elisprogram_waitlist:timemodified'] = 'Date and time the record was modified.';
+$string['privacy:metadata:local_elisprogram_waitlist:position'] = 'Whether or not the user is a user set leader.';
+
+$string['privacy:metadata:local_elisprogram_usr_mdl'] = 'Association between Moodle and ELIS program users.';
+$string['privacy:metadata:local_elisprogram_usr_mdl:cuserid'] = 'The user id for the ELIS program user record.';
+$string['privacy:metadata:local_elisprogram_usr_mdl:muserid'] = 'The user id for the Moodle user record.';
+$string['privacy:metadata:local_elisprogram_usr_mdl:idnumber'] = 'The shared user idnumber for both records.';
+
+$string['privacy:metadata:local_elisprogram_res_stulog'] = 'Results engine student logs.';
+$string['privacy:metadata:local_elisprogram_res_stulog:userid'] = 'The user id for this log.';
+$string['privacy:metadata:local_elisprogram_res_stulog:classlogid'] = 'Id of the class the action log is for.';
+$string['privacy:metadata:local_elisprogram_res_stulog:action'] = 'Text description of the action.';
+$string['privacy:metadata:local_elisprogram_res_stulog:daterun'] = 'Text of the date the action was run.';
+
+$string['privacy:metadata:local_elisprogram_certissued'] = 'Certificates that have been issued.';
+$string['privacy:metadata:local_elisprogram_certissued:cm_userid'] = 'The ELIS program user id for this record.';
+$string['privacy:metadata:local_elisprogram_certissued:cert_setting_id'] = 'Id of the record describing the certificate.';
+$string['privacy:metadata:local_elisprogram_certissued:cert_code'] = 'Unique certificate code.';
+$string['privacy:metadata:local_elisprogram_certissued:timeissued'] = 'Time certificate was issued to user.';
+$string['privacy:metadata:local_elisprogram_certissued:timecreated'] = 'Time the recod was created.';
+
+$string['privacy:metadata:local_elisprogram_deepsight'] = 'Saved deepsight searches.';
+$string['privacy:metadata:local_elisprogram_deepsight:userid'] = 'The user id for this search record.';
+$string['privacy:metadata:local_elisprogram_deepsight:contextid'] = 'The context id this search applies to.';
+$string['privacy:metadata:local_elisprogram_deepsight:pagename'] = 'The page identifier for this search.';
+$string['privacy:metadata:local_elisprogram_deepsight:name'] = 'The name given to this search.';
+$string['privacy:metadata:local_elisprogram_deepsight:isdefault'] = 'Flag indicating whether this is the user\'s default search.';
+$string['privacy:metadata:local_elisprogram_deepsight:data'] = 'JSON string containing search criteria.';
+$string['privacy:metadata:local_elisprogram_deepsight:fieldsort'] = 'JSON string containing field to sort by.';

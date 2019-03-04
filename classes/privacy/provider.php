@@ -112,6 +112,45 @@ class provider implements
             'leader' => 'privacy:metadata:local_elisprogram_uset_asign:leader',
         ], 'privacy:metadata:local_elisprogram_uset_asign');
 
+        $collection->add_database_table('local_elisprogram_waitlist', [
+            'userid' => 'privacy:metadata:local_elisprogram_waitlist:userid',
+            'classid' => 'privacy:metadata:local_elisprogram_waitlist:classid',
+            'timecreated' => 'privacy:metadata:local_elisprogram_waitlist:timecreated',
+            'timemodified' => 'privacy:metadata:local_elisprogram_waitlist:timemodified',
+            'position' => 'privacy:metadata:local_elisprogram_waitlist:position',
+        ], 'privacy:metadata:local_elisprogram_waitlist');
+
+        $collection->add_database_table('local_elisprogram_usr_mdl', [
+            'cuserid' => 'privacy:metadata:local_elisprogram_usr_mdl:cuserid',
+            'muserid' => 'privacy:metadata:local_elisprogram_usr_mdl:muserid',
+            'idnumber' => 'privacy:metadata:local_elisprogram_usr_mdl:idnumber',
+        ], 'privacy:metadata:local_elisprogram_usr_mdl');
+
+        $collection->add_database_table('local_elisprogram_res_stulog', [
+            'userid' => 'privacy:metadata:local_elisprogram_res_stulog:userid',
+            'classlogid' => 'privacy:metadata:local_elisprogram_res_stulog:classlogid',
+            'action' => 'privacy:metadata:local_elisprogram_res_stulog:action',
+            'daterun' => 'privacy:metadata:local_elisprogram_res_stulog:daterun',
+        ], 'privacy:metadata:local_elisprogram_res_stulog');
+
+        $collection->add_database_table('local_elisprogram_certissued', [
+            'cm_userid' => 'privacy:metadata:local_elisprogram_certissued:cm_userid',
+            'cert_setting_id' => 'privacy:metadata:local_elisprogram_certissued:cert_setting_id',
+            'cert_code' => 'privacy:metadata:local_elisprogram_certissued:cert_code',
+            'timeissued' => 'privacy:metadata:local_elisprogram_certissued:timeissued',
+            'timecreated' => 'privacy:metadata:local_elisprogram_certissued:timecreated',
+        ], 'privacy:metadata:local_elisprogram_certissued');
+
+        $collection->add_database_table('local_elisprogram_deepsight', [
+            'userid' => 'privacy:metadata:local_elisprogram_deepsight:userid',
+            'contextid' => 'privacy:metadata:local_elisprogram_deepsight:contextid',
+            'pagename' => 'privacy:metadata:local_elisprogram_deepsight:pagename',
+            'name' => 'privacy:metadata:local_elisprogram_deepsight:name',
+            'isdefault' => 'privacy:metadata:local_elisprogram_deepsight:isdefault',
+            'data' => 'privacy:metadata:local_elisprogram_deepsight:data',
+            'fieldsort' => 'privacy:metadata:local_elisprogram_deepsight:fieldsort',
+        ], 'privacy:metadata:local_elisprogram_deepsight');
+
         return $collection;
     }
 
