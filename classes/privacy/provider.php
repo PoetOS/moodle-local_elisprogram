@@ -52,6 +52,34 @@ class provider implements
     \core_privacy\local\metadata\collection {
 
         // Add all of the relevant tables and fields to the collection.
+        $collection->add_database_table('local_elisprogram_usr', [
+            'username' => 'privacy:metadata:local_elisprogram_usr:username',
+            'idnumber' => 'privacy:metadata:local_elisprogram_usr:idnumber',
+            'firstname' => 'privacy:metadata:local_elisprogram_usr:firstname',
+            'lastname' => 'privacy:metadata:local_elisprogram_usr:lastname',
+            'mi' => 'privacy:metadata:local_elisprogram_usr:mi',
+            'email' => 'privacy:metadata:local_elisprogram_usr:email',
+            'email2' => 'privacy:metadata:local_elisprogram_usr:email2',
+            'address' => 'privacy:metadata:local_elisprogram_usr:address',
+            'address2' => 'privacy:metadata:local_elisprogram_usr:address2',
+            'city' => 'privacy:metadata:local_elisprogram_usr:city',
+            'state' => 'privacy:metadata:local_elisprogram_usr:state',
+            'postalcode' => 'privacy:metadata:local_elisprogram_usr:postalcode',
+            'country' => 'privacy:metadata:local_elisprogram_usr:country',
+            'phone' => 'privacy:metadata:local_elisprogram_usr:phone',
+            'phone2' => 'privacy:metadata:local_elisprogram_usr:phone2',
+            'fax' => 'privacy:metadata:local_elisprogram_usr:fax',
+            'birthdate' => 'privacy:metadata:local_elisprogram_usr:birthdate',
+            'gender' => 'privacy:metadata:local_elisprogram_usr:gender',
+            'language' => 'privacy:metadata:local_elisprogram_usr:language',
+            'transfercredits' => 'privacy:metadata:local_elisprogram_usr:transfercredits',
+            'comments' => 'privacy:metadata:local_elisprogram_usr:comments',
+            'notes' => 'privacy:metadata:local_elisprogram_usr:notes',
+            'timecreated' => 'privacy:metadata:local_elisprogram_usr:timecreated',
+            'timeapproved' => 'privacy:metadata:local_elisprogram_usr:timeapproved',
+            'timemodified' => 'privacy:metadata:local_elisprogram_usr:timemodified',
+        ], 'privacy:metadata:local_elisprogram_usr');
+
         $collection->add_database_table('local_elisprogram_cls_enrol', [
             'userid' => 'privacy:metadata:local_elisprogram_cls_enrol:userid',
             'classid' => 'privacy:metadata:local_elisprogram_cls_enrol:classid',
@@ -90,34 +118,6 @@ class provider implements
             'timecreated' => 'privacy:metadata:local_elisprogram_pgm_assign:timecreated',
             'timemodified' => 'privacy:metadata:local_elisprogram_pgm_assign:timemodified',
         ], 'privacy:metadata:local_elisprogram_pgm_assign');
-
-        $collection->add_database_table('local_elisprogram_usr', [
-            'username' => 'privacy:metadata:local_elisprogram_usr:username',
-            'idnumber' => 'privacy:metadata:local_elisprogram_usr:idnumber',
-            'firstname' => 'privacy:metadata:local_elisprogram_usr:firstname',
-            'lastname' => 'privacy:metadata:local_elisprogram_usr:lastname',
-            'mi' => 'privacy:metadata:local_elisprogram_usr:mi',
-            'email' => 'privacy:metadata:local_elisprogram_usr:email',
-            'email2' => 'privacy:metadata:local_elisprogram_usr:email2',
-            'address' => 'privacy:metadata:local_elisprogram_usr:address',
-            'address2' => 'privacy:metadata:local_elisprogram_usr:address2',
-            'city' => 'privacy:metadata:local_elisprogram_usr:city',
-            'state' => 'privacy:metadata:local_elisprogram_usr:state',
-            'postalcode' => 'privacy:metadata:local_elisprogram_usr:postalcode',
-            'country' => 'privacy:metadata:local_elisprogram_usr:country',
-            'phone' => 'privacy:metadata:local_elisprogram_usr:phone',
-            'phone2' => 'privacy:metadata:local_elisprogram_usr:phone2',
-            'fax' => 'privacy:metadata:local_elisprogram_usr:fax',
-            'birthdate' => 'privacy:metadata:local_elisprogram_usr:birthdate',
-            'gender' => 'privacy:metadata:local_elisprogram_usr:gender',
-            'language' => 'privacy:metadata:local_elisprogram_usr:language',
-            'transfercredits' => 'privacy:metadata:local_elisprogram_usr:transfercredits',
-            'comments' => 'privacy:metadata:local_elisprogram_usr:comments',
-            'notes' => 'privacy:metadata:local_elisprogram_usr:notes',
-            'timecreated' => 'privacy:metadata:local_elisprogram_usr:timecreated',
-            'timeapproved' => 'privacy:metadata:local_elisprogram_usr:timeapproved',
-            'timemodified' => 'privacy:metadata:local_elisprogram_usr:timemodified',
-        ], 'privacy:metadata:local_elisprogram_usr');
 
         $collection->add_database_table('local_elisprogram_usr_trk', [
             'userid' => 'privacy:metadata:local_elisprogram_usr_trk:userid',
@@ -223,66 +223,28 @@ class provider implements
      * @param   approved_contextlist $contextlist The approved contexts to export information for.
      */
     public static function export_user_data(\core_privacy\local\request\approved_contextlist $contextlist) {
-        global $CFG;
-        require_once($CFG->dirroot.'/local/elisprogram/lib/setup.php');
-        require_once(\elispm::lib('data/student.class.php'));
 
         if (empty($contextlist->count())) {
             return;
         }
 
-        // Export ELIS core data.
+        // Export ELIS program data.
         $data = new \stdClass();
-        $data->workflows = [];
-        $data->elisfields = [];
         $user = $contextlist->get_user();
         $context = \context_user::instance($user->id);
 
-        if (!empty($workflowdata = self::program_user_data($user->id))) {
-            $data->username = $workflowdata->username;
-            $data->idnumber = $workflowdata->idnumber;
-            $data->firstname = $workflowdata->firstname;
-            $data->lastname = $workflowdata->lastname;
-            $data->mi = $workflowdata->mi;
-            $data->email = $workflowdata->email;
-            $data->email2 = $workflowdata->email2;
-            $data->address = $workflowdata->address;
-            $data->address2 = $workflowdata->address2;
-            $data->city = $workflowdata->city;
-            $data->state = $workflowdata->state;
-            $data->postalcode = $workflowdata->postalcode;
-            $data->country = $workflowdata->country;
-            $data->phone = $workflowdata->phone;
-            $data->phone2 = $workflowdata->phone2;
-            $data->fax = $workflowdata->fax;
-            $data->birthdate = $workflowdata->birthdate;
-            $data->gender = $workflowdata->gender;
-            $data->language = $workflowdata->language;
-            $data->transfercredits = $workflowdata->transfercredits;
-            $data->comments = $workflowdata->comments;
-            $data->notes = $workflowdata->notes;
-            $data->timecreated = \core_privacy\local\request\transform::datetime($workflowdata->timecreated);
-            $data->timeapproved = \core_privacy\local\request\transform::datetime($workflowdata->timeapproved);
-            $data->timemodified = \core_privacy\local\request\transform::datetime($workflowdata->timemodified);
-        }
-
-        $completestatustext = [
-            STUSTATUS_NOTCOMPLETE => get_string('class_notcompleted', 'local_elisprogram'),
-            STUSTATUS_FAILED => get_string('failed', 'local_elisprogram'),
-            STUSTATUS_PASSED => get_string('passed', 'local_elisprogram'),
-        ];
-        $enroldata = self::user_class_enrolment_data($user->id);
-        foreach ($enroldata as $enrolrecord) {
-            $data->classenrolments[] = [
-                'classname' => $enrolrecord->name,
-                'enrolmenttime' => \core_privacy\local\request\transform::datetime($enrolrecord->enrolmenttime),
-                'completetime' => \core_privacy\local\request\transform::datetime($enrolrecord->completetime),
-                'endtime' => \core_privacy\local\request\transform::datetime($enrolrecord->endtime),
-                'completestatusid' => $completestatustext[$enrolrecord->completestatusid],
-                'grade' => $enrolrecord->grade,
-                'credits' => $enrolrecord->credits,
-            ];
-        }
+        self::add_program_user_data($data, $user->id);
+        self::add_class_enrolment_data($data, $user->id);
+        self::add_class_learning_objective_data($data, $user->id);
+        self::add_instructor_data($data, $user->id);
+        self::add_program_data($data, $user->id);
+        self::add_track_data($data, $user->id);
+        self::add_notifylog_data($data, $user->id);
+        self::add_userset_data($data, $user->id);
+        self::add_waitlist_data($data, $user->id);
+        self::add_student_log_data($data, $user->id);
+        self::add_certificate_data($data, $user->id);
+        self::add_deepsight_data($data, $user->id);
 
         \core_privacy\local\request\writer::with_context($context)->export_data([
             get_string('privacy:metadata:local_elisprogram', 'local_elisprogram')
@@ -372,17 +334,19 @@ class provider implements
      * Return the class enrolment records for the specified user.
      *
      * @param int $userid The user to check for.
+     * @param string $table The table with the user and class id's.
+     * @param string $select Optional extra SELECT items.
+     * @param string $join Optional extra JOIN items.
      * @return array
      */
-    private static function user_class_enrolment_data(int $userid) {
+    private static function user_class_data(int $userid, string $table, string $select = '', string $join = '') {
         global $DB;
 
-        $sql = 'SELECT ce.*, cr.name ' .
-            'FROM {local_elisprogram_usr_mdl} um ' .
-            'INNER JOIN {local_elisprogram_cls_enrol} ce ON ce.userid = um.cuserid ' .
-            'INNER JOIN {local_elisprogram_cls} cl ON ce.classid = cl.id ' .
-            'INNER JOIN {local_elisprogram_crs} cr ON cl.courseid = cr.id ' .
-            'WHERE um.muserid = :userid';
+        $select = 'SELECT cd.*, cr.name as classname' . $select;
+        $join = ' INNER JOIN {' . $table . '} cd ON cd.userid = um.cuserid ' .
+            'INNER JOIN {local_elisprogram_cls} cl ON cd.classid = cl.id ' .
+            'INNER JOIN {local_elisprogram_crs} cr ON cl.courseid = cr.id ' . $join;
+        $sql = $select . ' FROM {local_elisprogram_usr_mdl} um ' . $join . ' WHERE um.muserid = :userid';
         $params = ['userid' => $userid];
         return $DB->get_records_sql($sql, $params);
     }
@@ -400,6 +364,334 @@ class provider implements
         $recordsinfo = self::user_field_data($userid);
         foreach ($recordsinfo as $recordinfo) {
             $DB->delete_records($recordinfo->tablename, ['id' => $recordinfo->id]);
+        }
+    }
+
+    /**
+     * Add the user program data.
+     *
+     * @param \stdClass $data The data structure to add to.
+     * @int $userid The Moodle userid for the data.
+     */
+    private static function add_program_user_data(\stdClass $data, int $userid) {
+        if (!empty($workflowdata = self::program_user_data($userid))) {
+            $data->username = $workflowdata->username;
+            $data->idnumber = $workflowdata->idnumber;
+            $data->firstname = $workflowdata->firstname;
+            $data->lastname = $workflowdata->lastname;
+            $data->mi = $workflowdata->mi;
+            $data->email = $workflowdata->email;
+            $data->email2 = $workflowdata->email2;
+            $data->address = $workflowdata->address;
+            $data->address2 = $workflowdata->address2;
+            $data->city = $workflowdata->city;
+            $data->state = $workflowdata->state;
+            $data->postalcode = $workflowdata->postalcode;
+            $data->country = $workflowdata->country;
+            $data->phone = $workflowdata->phone;
+            $data->phone2 = $workflowdata->phone2;
+            $data->fax = $workflowdata->fax;
+            $data->birthdate = $workflowdata->birthdate;
+            $data->gender = $workflowdata->gender;
+            $data->language = $workflowdata->language;
+            $data->transfercredits = $workflowdata->transfercredits;
+            $data->comments = $workflowdata->comments;
+            $data->notes = $workflowdata->notes;
+            $data->timecreated = \core_privacy\local\request\transform::datetime($workflowdata->timecreated);
+            $data->timeapproved = \core_privacy\local\request\transform::datetime($workflowdata->timeapproved);
+            $data->timemodified = \core_privacy\local\request\transform::datetime($workflowdata->timemodified);
+        }
+    }
+
+    /**
+     * Add the user class enrolment data.
+     *
+     * @param \stdClass $data The data structure to add to.
+     * @int $userid The Moodle userid for the data.
+     */
+    private static function add_class_enrolment_data(\stdClass $data, int $userid) {
+        global $CFG;
+        require_once($CFG->dirroot.'/local/elisprogram/lib/setup.php');
+        require_once(\elispm::lib('data/student.class.php'));
+
+        $completestatustext = [
+            STUSTATUS_NOTCOMPLETE => get_string('class_notcompleted', 'local_elisprogram'),
+            STUSTATUS_FAILED => get_string('failed', 'local_elisprogram'),
+            STUSTATUS_PASSED => get_string('passed', 'local_elisprogram'),
+        ];
+        if ($enroldata = self::user_class_data($userid, 'local_elisprogram_cls_enrol')) {
+            $data->classenrolments = [];
+            foreach ($enroldata as $enrolrecord) {
+                $data->classenrolments[] = [
+                    'classname' => $enrolrecord->classname,
+                    'enrolmenttime' => \core_privacy\local\request\transform::datetime($enrolrecord->enrolmenttime),
+                    'completetime' => \core_privacy\local\request\transform::datetime($enrolrecord->completetime),
+                    'endtime' => \core_privacy\local\request\transform::datetime($enrolrecord->endtime),
+                    'completestatusid' => $completestatustext[$enrolrecord->completestatusid],
+                    'grade' => $enrolrecord->grade,
+                    'credits' => $enrolrecord->credits,
+                ];
+            }
+        }
+    }
+
+    /**
+     * Add the user class learning objective data.
+     *
+     * @param \stdClass $data The data structure to add to.
+     * @int $userid The Moodle userid for the data.
+     */
+    private static function add_class_learning_objective_data(\stdClass $data, int $userid) {
+        $select = ', cc.name as loname, cc.description as lodescription, cc.completion_grade as lograde ';
+        $join = 'LEFT JOIN {local_elisprogram_crs_cmp} cc ON cd.completionid = cc.id ';
+        if ($gradedata = self::user_class_data($userid, 'local_elisprogram_cls_graded', $select, $join)) {
+            $data->learningobjectives = [];
+            foreach ($gradedata as $record) {
+                $data->learningobjectives[] = [
+                    'classname' => $record->classname,
+                    'learningobjectivename' => $record->loname,
+                    'learningobjectivedescription' => $record->lodescription,
+                    'gradeachieved' => $record->grade,
+                    'minimumrequiredgrade' => $record->lograde,
+                    'timegraded' => \core_privacy\local\request\transform::datetime($record->timegraded),
+                    'timemodified' => \core_privacy\local\request\transform::datetime($record->timemodified),
+                ];
+            }
+        }
+    }
+
+    /**
+     * Add the user instructor data.
+     *
+     * @param \stdClass $data The data structure to add to.
+     * @int $userid The Moodle userid for the data.
+     */
+    private static function add_instructor_data(\stdClass $data, int $userid) {
+        if ($records = self::user_class_data($userid, 'local_elisprogram_cls_nstrct')) {
+            $data->instructorclasses = [];
+            foreach ($records as $record) {
+                $data->instructorclasses[] = [
+                    'classname' => $record->classname,
+                    'assigntime' => \core_privacy\local\request\transform::datetime($record->assigntime),
+                    'completetime' => \core_privacy\local\request\transform::datetime($record->completetime),
+                ];
+            }
+        }
+    }
+
+    /**
+     * Add the user program data.
+     *
+     * @param \stdClass $data The data structure to add to.
+     * @int $userid The Moodle userid for the data.
+     */
+    private static function add_program_data(\stdClass $data, int $userid) {
+        global $DB;
+
+        $sql = 'SELECT pa.*, p.name, p.description ' .
+            'FROM {local_elisprogram_usr_mdl} um ' .
+            'INNER JOIN {local_elisprogram_pgm_assign} pa ON um.cuserid = pa.userid ' .
+            'INNER JOIN {local_elisprogram_pgm} p ON pa.curriculumid = p.id ' .
+            'WHERE um.muserid = :userid';
+        $params = ['userid' => $userid];
+        if ($records = $DB->get_records_sql($sql, $params)) {
+            $data->learningprograms = [];
+            foreach ($records as $record) {
+                $data->learningprograms[] = [
+                    'programname' => $record->name,
+                    'programdescription' => $record->description,
+                    'completed' => $record->completed,
+                    'credits' => $record->credits,
+                    'certificatecode' => $record->certificatecode,
+                    'timecreated' => \core_privacy\local\request\transform::datetime($record->timecreated),
+                    'timemodified' => \core_privacy\local\request\transform::datetime($record->timemodified),
+                    'timecompleted' => \core_privacy\local\request\transform::datetime($record->timecompleted),
+                    'timeexpired' => \core_privacy\local\request\transform::datetime($record->timeexpired),
+                ];
+            }
+        }
+    }
+
+    /**
+     * Add the user track data.
+     *
+     * @param \stdClass $data The data structure to add to.
+     * @int $userid The Moodle userid for the data.
+     */
+    private static function add_track_data(\stdClass $data, int $userid) {
+        global $DB;
+
+        $sql = 'SELECT ut.*, t.name, t.description ' .
+            'FROM {local_elisprogram_usr_mdl} um ' .
+            'INNER JOIN {local_elisprogram_usr_trk} ut ON um.cuserid = ut.userid ' .
+            'INNER JOIN {local_elisprogram_trk} t ON ut.trackid = t.id ' .
+            'WHERE um.muserid = :userid';
+        $params = ['userid' => $userid];
+        if ($records = $DB->get_records_sql($sql, $params)) {
+            $data->tracks = [];
+            foreach ($records as $record) {
+                $data->tracks[] = [
+                    'trackname' => $record->name,
+                    'trackdescription' => $record->description,
+                ];
+            }
+        }
+    }
+
+    /**
+     * Add the user notify log data.
+     *
+     * @param \stdClass $data The data structure to add to.
+     * @int $userid The Moodle userid for the data.
+     */
+    private static function add_notifylog_data(\stdClass $data, int $userid) {
+        global $DB;
+
+        $sql = 'SELECT nl.* ' .
+            'FROM {local_elisprogram_usr_mdl} um ' .
+            'INNER JOIN {local_elisprogram_notifylog} nl ON um.cuserid = nl.userid ' .
+            'WHERE um.muserid = :userid';
+        $params = ['userid' => $userid];
+        if ($records = $DB->get_records_sql($sql, $params)) {
+            $data->notifylogs = [];
+            foreach ($records as $record) {
+                $data->notifylogs[] = [
+                    'event' => $record->event,
+                    'data' => $record->data,
+                    'timecreated' => \core_privacy\local\request\transform::datetime($record->timecreated),
+                ];
+            }
+        }
+    }
+
+    /**
+     * Add the user userset data.
+     *
+     * @param \stdClass $data The data structure to add to.
+     * @int $userid The Moodle userid for the data.
+     */
+    private static function add_userset_data(\stdClass $data, int $userid) {
+        global $DB;
+
+        $sql = 'SELECT ua.*, u.display ' .
+            'FROM {local_elisprogram_usr_mdl} um ' .
+            'INNER JOIN {local_elisprogram_uset_asign} ua ON um.cuserid = ua.userid ' .
+            'INNER JOIN {local_elisprogram_uset} u ON ua.clusterid = u.id ' .
+            'WHERE um.muserid = :userid';
+        $params = ['userid' => $userid];
+        $leaderstr = [0 => get_string('no'), 1 => get_string('yes')];
+        if ($records = $DB->get_records_sql($sql, $params)) {
+            $data->usersets = [];
+            foreach ($records as $record) {
+                $data->usersets[] = [
+                    'name' => $record->display,
+                    'leader' => $leaderstr[$record->leader],
+                ];
+            }
+        }
+    }
+
+    /**
+     * Add the user waitlist data.
+     *
+     * @param \stdClass $data The data structure to add to.
+     * @int $userid The Moodle userid for the data.
+     */
+    private static function add_waitlist_data(\stdClass $data, int $userid) {
+        if ($records = self::user_class_data($userid, 'local_elisprogram_waitlist')) {
+            $data->waitlist = [];
+            foreach ($records as $record) {
+                $data->waitlist[] = [
+                    'classname' => $record->classname,
+                    'timecreated' => \core_privacy\local\request\transform::datetime($record->timecreated),
+                    'timemodified' => \core_privacy\local\request\transform::datetime($record->timemodified),
+                    'position' => $record->position,
+                ];
+            }
+        }
+    }
+
+    /**
+     * Add the user student log data.
+     *
+     * @param \stdClass $data The data structure to add to.
+     * @int $userid The Moodle userid for the data.
+     */
+    private static function add_student_log_data(\stdClass $data, int $userid) {
+        global $DB;
+
+        $sql = 'SELECT rs.*, cr.name as classname ' .
+            'FROM {local_elisprogram_usr_mdl} um ' .
+            'INNER JOIN {local_elisprogram_res_stulog} rs ON um.cuserid = rs.userid ' .
+            'INNER JOIN {local_elisprogram_res_clslog} rc ON rs.classlogid = rc.id ' .
+            'INNER JOIN {local_elisprogram_cls} cl ON rc.classid = cl.id ' .
+            'INNER JOIN {local_elisprogram_crs} cr ON cl.courseid = cr.id ' .
+            'WHERE um.muserid = :userid';
+        $params = ['userid' => $userid];
+        if ($records = $DB->get_records_sql($sql, $params)) {
+            $data->studentlogs = [];
+            foreach ($records as $record) {
+                $data->studentlogs[] = [
+                    'classname' => $record->classname,
+                    'action' => $record->action,
+                    'daterun' => $record->daterun,
+                ];
+            }
+        }
+    }
+
+    /**
+     * Add the user certificate data.
+     *
+     * @param \stdClass $data The data structure to add to.
+     * @int $userid The Moodle userid for the data.
+     */
+    private static function add_certificate_data(\stdClass $data, int $userid) {
+        global $DB;
+
+        $sql = 'SELECT ci.* ' .
+            'FROM {local_elisprogram_usr_mdl} um ' .
+            'INNER JOIN {local_elisprogram_certissued} ci ON um.cuserid = ci.cm_userid ' .
+            'WHERE um.muserid = :userid';
+        $params = ['userid' => $userid];
+        if ($records = $DB->get_records_sql($sql, $params)) {
+            $data->certificates = [];
+            foreach ($records as $record) {
+                $data->certificates[] = [
+                    'certcode' => $record->certcode,
+                    'timeissued' => \core_privacy\local\request\transform::datetime($record->timeissued),
+                    'timecreated' => \core_privacy\local\request\transform::datetime($record->timecreated),
+                ];
+            }
+        }
+    }
+
+    /**
+     * Add the user deepsight data.
+     *
+     * @param \stdClass $data The data structure to add to.
+     * @int $userid The Moodle userid for the data.
+     */
+    private static function add_deepsight_data(\stdClass $data, int $userid) {
+        global $DB;
+
+        $sql = 'SELECT ds.* ' .
+            'FROM {local_elisprogram_usr_mdl} um ' .
+            'INNER JOIN {local_elisprogram_deepsight} ds ON um.cuserid = ds.userid ' .
+            'WHERE um.muserid = :userid';
+        $params = ['userid' => $userid];
+        $defaultstr = [0 => get_string('no'), 1 => get_string('yes')];
+        if ($records = $DB->get_records_sql($sql, $params)) {
+            $data->savedsearches = [];
+            foreach ($records as $record) {
+                $data->savedsearches[] = [
+                    'pagename' => $record->pagename,
+                    'name' => $record->name,
+                    'isdefault' => $defaultstr[$record->isdefault],
+                    'data' => $record->data,
+                    'fieldsort' => $record->fieldsort,
+                ];
+            }
         }
     }
 }
