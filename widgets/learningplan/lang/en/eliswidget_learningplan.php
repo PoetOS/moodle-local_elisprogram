@@ -96,3 +96,5 @@ $string['status_waitlist'] = 'On the waitlist';
 $string['track_filtered'] = '* Note: Only showing unenrolled classes in Track!';
 $string['waiting'] = 'waiting';
 $string['working'] = 'Working...';
+
+$string['privacy:metadata'] = 'This subplugin stores no information. Code that uses this subplugin may store information.';

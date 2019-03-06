@@ -98,3 +98,5 @@ $string['teachingplan:addwidget'] = 'Add the TeachingPlan widget.';
 $string['timerange'] = ' to ';
 $string['waiting'] = 'waiting';
 $string['working'] = 'Working...';
+
+$string['privacy:metadata'] = 'This subplugin stores no information. Code that uses this subplugin may store information.';

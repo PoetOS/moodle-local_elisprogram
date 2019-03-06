@@ -8,3 +8,5 @@ $string['sync_instructor_role_help'] = 'If you select a role here, then any user
 $string['sync_instructor_role_setting'] = 'Instructor role';
 $string['sync_student_role_help'] = 'If you select a role here, then any user with this role in an ELIS class will be enrolled as a student in the class.';
 $string['sync_student_role_setting'] = 'Student role';
+
+$string['privacy:metadata'] = 'This subplugin stores no information. Code that uses this subplugin may store information.';

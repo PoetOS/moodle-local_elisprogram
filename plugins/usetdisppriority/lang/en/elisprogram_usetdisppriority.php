@@ -9,3 +9,5 @@ $string['display_priority_help'] = '<p>This setting determines the display prior
 $string['display_priority_field_name'] = 'Display Priority';
 $string['display_settings_category_name'] = 'User Set Display Settings';
 $string['pluginname'] = 'User Set Display Priority';
+
+$string['privacy:metadata'] = 'This subplugin stores no information. Code that uses this subplugin may store information.';

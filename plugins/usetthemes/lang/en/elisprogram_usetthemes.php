@@ -18,3 +18,4 @@ $string['userset_theme'] = 'Theme';
 $string['userset_theme_category'] = 'User Set Theme';
 $string['userset_theme_priority'] = 'Theme Priority';
 
+$string['privacy:metadata'] = 'This subplugin stores no information. Code that uses this subplugin may store information.';

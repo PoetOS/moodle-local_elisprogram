@@ -11,3 +11,5 @@ $string['pre_post_test_category_name'] = 'Pre- and Post-tests';
 $string['pre_test'] = 'Pre-test';
 $string['pre_test_field_name'] = 'Pre-test';
 $string['pre_test_help'] = '<p>Select the desired learning objective for Pre-test.</p>';
+
+$string['privacy:metadata'] = 'This subplugin stores no information. Code that uses this subplugin may store information.';

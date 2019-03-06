@@ -93,3 +93,5 @@ $string['status_unavailable'] = 'Unavailable';
 $string['status_waitlist'] = 'On the waitlist';
 $string['waiting'] = 'waiting';
 $string['working'] = 'Working...';
+
+$string['privacy:metadata'] = 'This subplugin stores no information. Code that uses this subplugin may store information.';

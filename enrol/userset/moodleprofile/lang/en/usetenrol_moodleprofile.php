@@ -44,3 +44,5 @@ $string['option_profile_field'] = '(please select a profile field first)';
 $string['pluginname'] = 'Moodle profile field-based User Set assignments';
 
 $string['set_to'] = 'set to';
+
+$string['privacy:metadata'] = 'This subplugin stores no information. Code that uses this subplugin may store information.';

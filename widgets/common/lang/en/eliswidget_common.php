@@ -30,3 +30,4 @@ $string['pluginname'] = 'ELIS Widget Common';
 $string['name'] = 'ELIS Widget Common';
 $string['description'] = 'Common code for ELIS Widgets.';
 
+$string['privacy:metadata'] = 'This subplugin stores no information. Code that uses this subplugin may store information.';

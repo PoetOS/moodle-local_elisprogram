@@ -37,3 +37,5 @@ Also, be cautious when enabling this setting, as it will cause the Program Manag
 $string['grp_pop_userset_setting'] = 'Allow course-level group population from User Sets';
 $string['pluginname'] = 'User Set Groups';
 $string['site_course_userset_groups'] = 'Allow front page group population from User Sets';
+
+$string['privacy:metadata'] = 'This subplugin stores no information. Code that uses this subplugin may store information.';

@@ -31,4 +31,4 @@ $string['userset_classification'] = 'User Set Classifications';
 $string['usersetclassificationform:elis_files_shared_folder'] = 'Help with create an ELIS Files User Set shared folder';
 $string['usersetclassificationform:elis_files_shared_folder_help'] = '<p>Enabling this setting allows a shared folder to be created in the ELIS Files repository for this User Set.</p>';
 
-
+$string['privacy:metadata'] = 'This subplugin stores no information. Code that uses this subplugin may store information.';

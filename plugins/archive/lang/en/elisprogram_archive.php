@@ -11,3 +11,5 @@ $string['archive_program'] = 'Archive Program';
 $string['archive_program_help'] = '<p>Enabling this will cause the dashboard to only show this program and associated courses when the "Archived Learning Plans" tab is selected.</p>';
 
 $string['pluginname'] = 'Archive Program';
+
+$string['privacy:metadata'] = 'This subplugin stores no information. Code that uses this subplugin may store information.';

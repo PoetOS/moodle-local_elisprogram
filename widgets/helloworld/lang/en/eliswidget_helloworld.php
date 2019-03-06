@@ -30,3 +30,5 @@ $string['name'] = 'Hello World';
 $string['description'] = 'Just a Simple Hello World Widget';
 $string['helloworld'] = 'Hello World!';
 $string['label_texttodisplay'] = 'Text to display';
+
+$string['privacy:metadata'] = 'This subplugin stores no information. Code that uses this subplugin may store information.';

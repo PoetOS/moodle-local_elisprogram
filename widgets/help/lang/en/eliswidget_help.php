@@ -30,3 +30,5 @@ $string['name'] = 'Help';
 $string['description'] = 'A widget containing instructions on how to use ELIS widgets.';
 $string['helptext'] = 'You\'ve added an ELIS Dashboard Block!<br /><br />
 To choose which widget to display here, click the "Customize This Page" button on the top right of this page. Then click the gear icon and choose "Configure"';
+
+$string['privacy:metadata'] = 'This subplugin stores no information. Code that uses this subplugin may store information.';

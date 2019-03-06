@@ -34,3 +34,5 @@ $string['manually_assigned_users'] = 'Manually-assigned users';
 $string['manually_assigned_usersets'] = 'Manually-assigned user sets';
 
 $string['pluginname'] = 'Manual user set assignments';
+
+$string['privacy:metadata'] = 'This subplugin stores no information. Code that uses this subplugin may store information.';
