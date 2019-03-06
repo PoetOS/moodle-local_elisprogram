@@ -59,6 +59,11 @@ class local_elisprogram_privacy_testcase extends \core_privacy\tests\provider_te
             user::TABLE => elispm::file('tests/fixtures/pmuser.csv'),
             student::TABLE => elispm::file('tests/fixtures/student.csv'),
             student_grade::TABLE => elispm::file('tests/fixtures/class_graded.csv'),
+            curriculum::TABLE => elispm::file('tests/fixtures/curriculum.csv'),
+            track::TABLE => elispm::file('tests/fixtures/ppttrack.csv'),
+            usertrack::TABLE => elispm::file('tests/fixtures/pptusertrack.csv'),
+            userset::TABLE => elispm::file('tests/fixtures/userset.csv'),
+            clusterassignment::TABLE => elispm::file('tests/fixtures/pptusersetassign.csv'),
         ));
         $this->loadDataSet($dataset);
     }
@@ -137,6 +142,12 @@ class local_elisprogram_privacy_testcase extends \core_privacy\tests\provider_te
         $this->assertCount(2, $data->learningobjectives);
         $this->assertEquals('Test Course', $data->learningobjectives[1]['classname']);
         $this->assertEquals('80.00000', $data->learningobjectives[1]['gradeachieved']);
+        $this->assertCount(1, $data->tracks);
+        $this->assertEquals('TRK1', $data->tracks[0]['trackname']);
+        $this->assertEquals('TRK-1 Description', $data->tracks[0]['trackdescription']);
+        $this->assertCount(1, $data->usersets);
+        $this->assertEquals('Some parent user set', $data->usersets[0]['name']);
+        $this->assertEquals('No', $data->usersets[0]['leader']);
     }
 
     /**
