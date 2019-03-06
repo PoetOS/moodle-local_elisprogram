@@ -49,9 +49,15 @@ class local_elisprogram_privacy_testcase extends \core_privacy\tests\provider_te
      * Load initial data from a CSV files.
      */
     protected function load_csv_data() {
+        global $CFG;
+        require_once($CFG->dirroot.'/local/elisprogram/lib/setup.php');
+        require_once(\elispm::lib('data/student.class.php'));
+        require_once(\elispm::lib('data/usermoodle.class.php'));
+
         $dataset = $this->createCsvDataSet(array(
             'course' => elispm::file('tests/fixtures/mdlcourse.csv'),
             'user' => elispm::file('tests/fixtures/mdluser.csv'),
+            'context' => elispm::file('tests/fixtures/pptcontext.csv'),
             classmoodlecourse::TABLE => elispm::file('tests/fixtures/class_moodle_course.csv'),
             course::TABLE => elispm::file('tests/fixtures/pmcourse.csv'),
             pmclass::TABLE => elispm::file('tests/fixtures/pmclass.csv'),
@@ -74,14 +80,14 @@ class local_elisprogram_privacy_testcase extends \core_privacy\tests\provider_te
     public function test_get_contexts_for_userid() {
         $this->resetAfterTest();
 
-        $user1 = self::create_elis_user($this->getDataGenerator());
-        $user2 = self::create_elis_user($this->getDataGenerator());
+        // Set up import data.
+        $this->load_csv_data();
+        $user1 = (object)['id' => 100];
+        $user2 = (object)['id' => 101];
 
-        $this->assertNotEmpty(provider::get_contexts_for_userid($user1->id));
-        $this->assertNotEmpty(provider::get_contexts_for_userid($user2->id));
-
+        $contextlist = provider::get_contexts_for_userid($user1->id);
+        $this->assertCount(1, $contextlist);
         $contextlist = provider::get_contexts_for_userid($user2->id);
-        // Check that we only get back one context.
         $this->assertCount(1, $contextlist);
 
         // Check that a context is returned and is the expected context.
@@ -96,12 +102,12 @@ class local_elisprogram_privacy_testcase extends \core_privacy\tests\provider_te
         $this->resetAfterTest();
 
         $component = 'local_elisprogram';
-        // Create some users.
-        $user1 = self::create_elis_user($this->getDataGenerator());
-        $user2 = self::create_elis_user($this->getDataGenerator());
+
+        // Set up import data.
+        $this->load_csv_data();
+        $user1 = (object)['id' => 100];
         $usercontext = context_user::instance($user1->id);
 
-        // The list of users should not return anything yet (related data still haven't been created).
         $userlist = new \core_privacy\local\request\userlist($usercontext, $component);
         provider::get_users_in_context($userlist);
         $this->assertCount(1, $userlist);
@@ -154,104 +160,62 @@ class local_elisprogram_privacy_testcase extends \core_privacy\tests\provider_te
      * Test deleting all user data for a specific context.
      */
     public function test_delete_data_for_all_users_in_context() {
-        global $DB;
-return;
         $this->resetAfterTest();
 
-        // Create a user record.
-        $user1 = self::create_elis_user($this->getDataGenerator());
+        // Set up import data.
+        $this->load_csv_data();
+        $user1 = (object)['id' => 100];
+        $user1epid = 103;
         $user1context = \context_user::instance($user1->id);
-        $user2 = self::create_elis_user($this->getDataGenerator());
-        // Create workflow records.
-        self::create_workflow_instance($user1->id);
-        self::create_workflow_instance($user2->id);
-        // Create user field instances.
-        $efinfo1 = self::create_elis_user_field($user1->idnumber);
-        $efinfo2 = self::create_elis_user_field($user1->idnumber);
-        $efinfo3 = self::create_elis_user_field($user2->idnumber);
 
-        // Get the first fieldid for later test.
-        $field1id = $DB->get_field($efinfo1->table, 'fieldid', ['id' => $efinfo1->id]);
-
-        // Get all accounts. There should be two.
-        $this->assertCount(2, $DB->get_records('local_eliscore_wkflow_inst', []));
+        // Do the pre-delete tests.
+        $this->pre_user_delete_tests($user1epid);
 
         // Delete everything for the first user context.
         provider::delete_data_for_all_users_in_context($user1context);
 
-        // Only the user1 record should be gone.
-        $this->assertCount(0, $DB->get_records('local_eliscore_wkflow_inst', ['userid' => $user1->id]));
-        $this->assertCount(1, $DB->get_records('local_eliscore_wkflow_inst', []));
-        $this->assertCount(0, $DB->get_records($efinfo1->table, ['id' => $efinfo1->id]));
-        $this->assertCount(0, $DB->get_records($efinfo2->table, ['id' => $efinfo2->id]));
-        $this->assertCount(1, $DB->get_records($efinfo3->table, ['id' => $efinfo3->id]));
-
-        // The field itself should still exist.
-        $this->assertCount(1, $DB->get_records('local_eliscore_field', ['id' => $field1id]));
+        // Do the pre-delete tests.
+        $this->post_user_delete_tests($user1epid);
     }
 
     /**
      * This should work identical to the above test.
      */
     public function test_delete_data_for_user() {
-        global $DB;
-return;
         $this->resetAfterTest();
 
-        // Create a user record.
-        $user1 = self::create_elis_user($this->getDataGenerator());
+        // Set up import data.
+        $this->load_csv_data();
+        $user1 = (object)['id' => 100];
+        $user1epid = 103;
         $user1context = \context_user::instance($user1->id);
-        self::create_workflow_instance($user1->id);
-        $efinfo1 = self::create_elis_user_field($user1->idnumber);
-        $efinfo2 = self::create_elis_user_field($user1->idnumber);
-        // Get the first fieldid for later test.
-        $field1id = $DB->get_field($efinfo1->table, 'fieldid', ['id' => $efinfo1->id]);
 
-        $user2 = self::create_elis_user($this->getDataGenerator());
-        self::create_workflow_instance($user2->id);
-        $efinfo3 = self::create_elis_user_field($user2->idnumber);
-
-        // Get all accounts. There should be two.
-        $this->assertCount(2, $DB->get_records('local_eliscore_wkflow_inst', []));
+        // Do the pre-delete tests.
+        $this->pre_user_delete_tests($user1epid);
 
         // Delete everything for the first user.
         $approvedlist = new \core_privacy\local\request\approved_contextlist($user1, 'local_eliscore', [$user1context->id]);
         provider::delete_data_for_user($approvedlist);
 
-        // Only the user1 record should be gone.
-        $this->assertCount(0, $DB->get_records('local_eliscore_wkflow_inst', ['userid' => $user1->id]));
-        $this->assertCount(1, $DB->get_records('local_eliscore_wkflow_inst', []));
-        $this->assertCount(0, $DB->get_records($efinfo1->table, ['id' => $efinfo1->id]));
-        $this->assertCount(0, $DB->get_records($efinfo2->table, ['id' => $efinfo2->id]));
-        $this->assertCount(1, $DB->get_records($efinfo3->table, ['id' => $efinfo3->id]));
-
-        // The field itself should still exist.
-        $this->assertCount(1, $DB->get_records('local_eliscore_field', ['id' => $field1id]));
+        // Do the pre-delete tests.
+        $this->post_user_delete_tests($user1epid);
     }
 
     /**
      * Test that data for users in approved userlist is deleted.
      */
     public function test_delete_data_for_users() {
-        global $DB;
-return;
         $this->resetAfterTest();
 
-        $component = 'local_eliscore';
+        $component = 'local_elisprogram';
 
-        // Create a user record.
-        $user1 = self::create_elis_user($this->getDataGenerator());
+        // Set up import data.
+        $this->load_csv_data();
+        $user1 = (object)['id' => 100];
+        $user1epid = 103;
         $user1context = \context_user::instance($user1->id);
-        self::create_workflow_instance($user1->id);
-        $efinfo1 = self::create_elis_user_field($user1->idnumber);
-        $efinfo2 = self::create_elis_user_field($user1->idnumber);
-        // Get the first fieldid for later test.
-        $field1id = $DB->get_field($efinfo1->table, 'fieldid', ['id' => $efinfo1->id]);
-
-        $user2 = self::create_elis_user($this->getDataGenerator());
+        $user2 = (object)['id' => 101];
         $user2context = \context_user::instance($user2->id);
-        self::create_workflow_instance($user2->id);
-        $efinfo3 = self::create_elis_user_field($user2->idnumber);
 
         // The list of users for usercontext1 should return user1.
         $userlist1 = new \core_privacy\local\request\userlist($user1context, $component);
@@ -269,16 +233,22 @@ return;
         $actual = $userlist2->get_userids();
         $this->assertEquals($expected, $actual);
 
+        // Do the pre-delete tests.
+        $this->pre_user_delete_tests($user1epid);
+
         // Add userlist1 to the approved user list.
         $approvedlist = new \core_privacy\local\request\approved_userlist($user1context, $component, $userlist1->get_userids());
-
         // Delete user data using delete_data_for_user for usercontext1.
         provider::delete_data_for_users($approvedlist);
+
+        // Do the post-delete tests.
+        $this->post_user_delete_tests($user1epid);
 
         // Re-fetch users in usercontext1 - The user list should now be empty.
         $userlist1 = new \core_privacy\local\request\userlist($user1context, $component);
         provider::get_users_in_context($userlist1);
         $this->assertCount(0, $userlist1);
+
         // Re-fetch users in usercontext2 - The user list should not be empty (user2).
         $userlist2 = new \core_privacy\local\request\userlist($user2context, $component);
         provider::get_users_in_context($userlist2);
@@ -297,18 +267,41 @@ return;
     }
 
     /**
-     * Generate a Moodle and ELIS user and return it.
+     * Tests for delete user are all the same. Do the pre-delete tests here.
      *
-     * @param testing_data_generator $generator
-     * @return stdClass
      */
-    private static function create_elis_user(testing_data_generator $generator ) {
+    private function pre_user_delete_tests($userid) {
         global $DB;
 
-        $user = $generator->create_user();
-        // Trigger the user created event so ELIS will create its user records.
-        \core\event\user_created::create_from_userid($user->id)->trigger();
-        // The events will have updated the user records. Reload them.
-        return $DB->get_record('user', ['id' => $user->id]);
+        // Get all accounts. There should be two.
+        $this->assertCount(2, $DB->get_records('local_elisprogram_usr_mdl', []));
+        $this->assertCount(2, $DB->get_records('local_elisprogram_usr', []));
+
+        // Confirm other data exists.
+        $this->assertCount(1, $DB->get_records('local_elisprogram_cls_enrol', ['userid' => $userid]));
+        $this->assertCount(2, $DB->get_records('local_elisprogram_cls_graded', ['userid' => $userid]));
+        $this->assertCount(1, $DB->get_records('local_elisprogram_usr_trk', ['userid' => $userid]));
+        $this->assertCount(1, $DB->get_records('local_elisprogram_uset_asign', ['userid' => $userid]));
+        $this->assertCount(1, $DB->get_records('local_elisprogram_uset_asign', ['userid' => $userid]));
+    }
+
+    /**
+     * Tests for delete user are all the same. Do the post-delete tests here.
+     *
+     */
+    private function post_user_delete_tests($userid) {
+        global $DB;
+
+        // Only the user1 record should be gone.
+        $this->assertCount(0, $DB->get_records('local_elisprogram_usr_mdl', ['cuserid' => $userid]));
+        $this->assertCount(1, $DB->get_records('local_elisprogram_usr_mdl', []));
+        $this->assertCount(0, $DB->get_records('local_elisprogram_usr', ['id' => $userid]));
+        $this->assertCount(1, $DB->get_records('local_elisprogram_usr', []));
+
+        $this->assertCount(0, $DB->get_records('local_elisprogram_cls_enrol', ['userid' => $userid]));
+        $this->assertCount(0, $DB->get_records('local_elisprogram_cls_graded', ['userid' => $userid]));
+        $this->assertCount(0, $DB->get_records('local_elisprogram_usr_trk', ['userid' => $userid]));
+        $this->assertCount(0, $DB->get_records('local_elisprogram_uset_asign', ['userid' => $userid]));
+        $this->assertCount(0, $DB->get_records('local_elisprogram_uset_asign', ['userid' => $userid]));
     }
 }

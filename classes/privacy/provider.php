@@ -302,8 +302,6 @@ class provider implements
      * @return boolean
      */
     private static function user_has_elisprogram_data(int $userid) {
-        global $DB;
-
         // All ELIS program users must have a record in the ELIS user table.
         $hasdata = false;
         if (!empty(self::program_user_data($userid))) {
@@ -327,6 +325,7 @@ class provider implements
             'INNER JOIN {local_elisprogram_usr} epu ON epu.id = um.cuserid ' .
             'WHERE um.muserid = :userid';
         $params = ['userid' => $userid];
+
         return $DB->get_record_sql($sql, $params);
     }
 
@@ -359,12 +358,25 @@ class provider implements
     private static function delete_user_data($userid) {
         global $DB;
 
-        $DB->delete_records('local_eliscore_wkflow_inst', ['userid' => $userid]);
-
-        $recordsinfo = self::user_field_data($userid);
-        foreach ($recordsinfo as $recordinfo) {
-            $DB->delete_records($recordinfo->tablename, ['id' => $recordinfo->id]);
+        // Get the ELIS program user id for easier SQL.
+        $epuserid = $DB->get_field('local_elisprogram_usr_mdl', 'cuserid', ['muserid' => $userid]);
+        if (empty($epuserid)) {
+            return;
         }
+
+        $DB->delete_records('local_elisprogram_cls_enrol', ['userid' => $epuserid]);
+        $DB->delete_records('local_elisprogram_cls_graded', ['userid' => $epuserid]);
+        $DB->delete_records('local_elisprogram_cls_nstrct', ['userid' => $epuserid]);
+        $DB->delete_records('local_elisprogram_pgm_assign', ['userid' => $epuserid]);
+        $DB->delete_records('local_elisprogram_usr_trk', ['userid' => $epuserid]);
+        $DB->delete_records('local_elisprogram_notifylog', ['userid' => $epuserid]);
+        $DB->delete_records('local_elisprogram_uset_asign', ['userid' => $epuserid]);
+        $DB->delete_records('local_elisprogram_waitlist', ['userid' => $epuserid]);
+        $DB->delete_records('local_elisprogram_res_stulog', ['userid' => $epuserid]);
+        $DB->delete_records('local_elisprogram_certissued', ['cm_userid' => $epuserid]);
+        $DB->delete_records('local_elisprogram_deepsight', ['userid' => $epuserid]);
+        $DB->delete_records('local_elisprogram_usr_mdl', ['cuserid' => $epuserid]);
+        $DB->delete_records('local_elisprogram_usr', ['id' => $epuserid]);
     }
 
     /**
