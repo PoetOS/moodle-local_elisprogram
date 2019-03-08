@@ -1634,3 +1634,7 @@ $string['privacy:metadata:local_elisprogram_deepsight:name'] = 'The name given t
 $string['privacy:metadata:local_elisprogram_deepsight:isdefault'] = 'Flag indicating whether this is the user\'s default search.';
 $string['privacy:metadata:local_elisprogram_deepsight:data'] = 'JSON string containing search criteria.';
 $string['privacy:metadata:local_elisprogram_deepsight:fieldsort'] = 'JSON string containing field to sort by.';
+
+$string['privacy:metadata:usetenrolpluginsummary'] = 'ELIS program userset enrolments subplugin data.';
+$string['privacy:metadata:elisprogrampluginsummary'] = 'ELIS program program subplugin data.';
+$string['privacy:metadata:eliswidgetpluginsummary'] = 'ELIS program widget subplugin data.';

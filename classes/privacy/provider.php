@@ -179,6 +179,10 @@ class provider implements
             'fieldsort' => 'privacy:metadata:local_elisprogram_deepsight:fieldsort',
         ], 'privacy:metadata:local_elisprogram_deepsight');
 
+        $collection->add_plugintype_link('usetenrol', [], 'privacy:metadata:usetenrolpluginsummary');
+        $collection->add_plugintype_link('elisprogram', [], 'privacy:metadata:elisprogrampluginsummary');
+        $collection->add_plugintype_link('eliswidget', [], 'privacy:metadata:eliswidgetpluginsummary');
+
         return $collection;
     }
 
