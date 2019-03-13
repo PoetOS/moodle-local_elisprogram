@@ -1519,7 +1519,7 @@ $string['widget_preview_alt'] = 'Widget Preview';
 $string['widget_preview_notavailable'] = 'No preview available';
 
 // Privacy API strings.
-$string['privacy:metadata:local_elisprogram'] = 'ELIS program local data.';
+$string['privacy:metadata:local_elisprogram'] = 'ELIS program local data';
 
 $string['privacy:metadata:local_elisprogram_usr'] = 'ELIS program user record data.';
 $string['privacy:metadata:local_elisprogram_usr:username'] = 'ELIS program user name.';
