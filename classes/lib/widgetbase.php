@@ -212,7 +212,7 @@ abstract class widgetbase implements namespace\widgetinterface {
         if (!empty($widget) && class_exists($widgetclass)) {
             return new $widgetclass;
         } else {
-            throw new \coding_exception('Widget not found');
+            throw new \coding_exception('Widget ' . $widget . ' not found');
         }
     }
 }
