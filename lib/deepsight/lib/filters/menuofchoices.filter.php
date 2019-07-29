@@ -112,7 +112,7 @@ class deepsight_filter_menuofchoices extends deepsight_filter_standard {
      * @return array An array of filter SQL, and SQL parameters.
      */
     public function get_filter_sql($data) {
-        if (empty($data) || !is_array($data)) {
+        if (empty($data) || !is_array($data) || empty($data[0])) {
             return array('', array());
         } else {
             $params = array();

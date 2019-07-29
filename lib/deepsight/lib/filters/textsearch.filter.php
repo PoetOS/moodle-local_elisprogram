@@ -37,7 +37,8 @@ class deepsight_filter_textsearch extends deepsight_filter_standard {
      * @return array An array of filter SQL, and SQL parameters.
      */
     public function get_filter_sql($data) {
-        if (empty($data) || !is_array($data) || !isset($data[0]) || (!is_numeric($data[0]) && !is_string($data[0]))) {
+        if (empty($data) || !is_array($data) || !isset($data[0]) || empty($data[0]) ||
+            (!is_numeric($data[0]) && !is_string($data[0]))) {
             return array('', array());
         } else {
             $words = explode(' ', $data[0]);
